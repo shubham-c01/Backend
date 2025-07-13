@@ -1,9 +1,6 @@
 import dotenv from 'dotenv'
 import dbconnect from "./db/db.js";
 import { app } from './app.js';
-
-
-
 dotenv.config({
  path:'./env'
 })
@@ -23,30 +20,3 @@ dbconnect()//since dbconnect() is a async function it has .then and .catch prope
  
 })
 
-
-/* 1st approach of connectivity with databse 
-import express from 'express'
-const app=express()
-(async ()=>{
- try {
-  await mongoose.connect(`${process.env.MONGODB_URL}/${DB_NAME}`)
-
-  app.on('error',(error)=>{
-   console.log('error on connection of app with database',error);
-   
-  })
-  app.listen(process.env.PORT,()=>{
-   console.log(`App is listening on http://localhost:${process.env.PORT}`);
-   
-  })
-  
- } catch (error) {
-  console.log('Error',error);
-  throw error
-  
-  
- }
-
-
-})()
-*/

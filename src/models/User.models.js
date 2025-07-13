@@ -59,7 +59,7 @@ const userSchema=new mongoose.Schema({
 },{timestamps:true})
 
 userSchema.pre('save',async function(next){
-      if(this.isModified('password')){//applying condition so that the password gets saved in databse after hashing only when user is changing the password otherwise any other change like changing username,adding new avatar would also let to change and save the password in the database
+      if(this.isModified('password')){//applying condition so that the password gets saved in databse after hashing ,only when user is changing the password otherwise any other change like changing username,adding new avatar would also let to change and save the password in the database
        this.password=bcrypt.hash(this.password,10)//10 represents the number of round of salting in hasing the password
       next()
 

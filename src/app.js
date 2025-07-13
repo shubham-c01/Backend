@@ -13,4 +13,13 @@ app.use(express.urlencoded({extended:true,limit:'10kb'}))//handling data from ur
 app.use(express.static('Public'))//handling static data like images 
 
 app.use(cookieParser())
+
+//routes
+import userRouter from './routes/User.routes.js'
+
+//routes declaration
+app.use('/api/v1/users',userRouter)
+
+//the url would be like this 
+//http://localhost:8000/api/v1/users/register
 export {app}
