@@ -60,7 +60,7 @@ const userSchema=new mongoose.Schema({
 
 userSchema.pre('save',async function(next){
       if(this.isModified('password')){//applying condition so that the password gets saved in databse after hashing ,only when user is changing the password otherwise any other change like changing username,adding new avatar would also let to change and save the password in the database
-       this.password=bcrypt.hash(this.password,10)//10 represents the number of round of salting in hasing the password
+       this.password=await bcrypt.hash(this.password,10)//10 represents the number of round of salting in hasing the password
       next()
 
       }
@@ -105,4 +105,5 @@ userSchema.methods.generaterefreshtoken=function(){
  )
 
 }
-export const user=mongoose.model({'user':userSchema})
+export const User=mongoose.model('user',userSchema)
+ 
