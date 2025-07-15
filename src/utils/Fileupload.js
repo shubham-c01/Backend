@@ -10,15 +10,16 @@ import fs from 'fs'
 // Upload an image
      const UploadonCloudinary=async (locafilepath)=>{
       try {
-       if (locafilepath) {
+       if (!locafilepath) return null;
         const result=await cloudinary.uploader.upload(locafilepath,{
+          folder:'images',
        resource_type:'auto'
       })
-             console.log('FILE UPLOADED SUCCESSFULLY',result.url);
+             fs.unlinkSync(locafilepath)
              return result
 
         
-       }
+       
        
        
       } catch (error){

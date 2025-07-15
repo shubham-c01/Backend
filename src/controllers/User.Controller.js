@@ -37,7 +37,7 @@ const registerUser=AsyncHandler(async (req,res)=>{
         
     }
     //3.checking if user already exist or not by using user. models.js because it has access of the database
-    const existedUser=await user.findOne({//using await because findone() is a promise and without await it will always be true
+    const existedUser=await User.findOne({//using await because findone() is a promise and without await it will always be true
         $or:[{email},{username}]
     })
 
@@ -62,11 +62,13 @@ const registerUser=AsyncHandler(async (req,res)=>{
     size: 12345
   }
 ]*/
-  const avatarLocalpath=  req.files?.avatar[0]?.path
-  const coverImageLocalpath=req.files?.coverImage[0]?.path
+  const avatarLocalpath=  req.files?.avatar?.[0]?.path
+  const coverImageLocalpath=req.files?.coverImage?.[0]?.path
 
 
   if (!avatarLocalpath) {
+    
+    
 
         throw new ApiError(400,"Avatar file is needed")
 
@@ -74,20 +76,21 @@ const registerUser=AsyncHandler(async (req,res)=>{
 
   //5.uploading them on cloudinary
 
-const avatar= await UploadonCloudinary(avatarLocalpath)
+const _avatar= await UploadonCloudinary(avatarLocalpath)
 const coverImage=await UploadonCloudinary(coverImageLocalpath)
 
 
-    if (!avatar) {
+    if (!_avatar) {
         throw new ApiError(400,"Avatar file is required")
         
     }
   //creating a user entry into the database
    const user=await User.create({
         fullname,
-        avatar:avatar.url,
+        avatar:_avatar.url,
         email,
         username,
+        password,
         coverImage:coverImage?.url || "",
     })
         //removing the password and refreshToken from the data
